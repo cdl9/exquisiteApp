@@ -1,0 +1,37 @@
+.fc-custom-event {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.75rem;
+  padding: 2px 4px;
+  line-height: 1.1;
+  background-color: var(--light-gray);
+  width:100%;
+}
+
+.fc-event-title {
+  font-weight: 600;
+  color: #2d2d2d;
+}
+
+.fc-event-location {
+  font-size: 0.7rem;
+  color: #8181ff;  /* purple accent */
+}
+
+.fc-event-time {
+  font-size: 0.7rem;
+  color: #555;
+}
+.fc-daygrid-event {
+  white-space: normal !important;     /* allow wrapping */
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  padding: 2px 4px !important;
+  border-radius: 6px !important;
+}
+.fc-daygrid-event .fc-event-title {
+  white-space: normal !important;   /* allow multi-line */
+  overflow: hidden !important;
+  font-weight: 600;
+  font-size: 0.75rem;
+}

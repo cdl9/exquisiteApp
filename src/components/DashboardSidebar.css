@@ -1,0 +1,235 @@
+/* DashboardSidebar.css */
+
+.header-title{
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-left: 1.25rem;
+  color: var(--dark-charcoal);
+}
+.dashboard-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  background-color: #f9fafb;
+  position: relative;
+  overflow:hidden;
+}
+.dashboard-header{
+  background-color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.sidebar {
+  background-color: var(--sidebar-bg);
+  box-shadow: 5px 0 5px -5px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  border-right: 1px solid #e5e7eb;
+  overflow-y: auto;
+  position: relative;
+  overflow: visible;
+  z-index: 50;
+  transition: width 0.3s ease;
+  width: 4rem;
+  height:100vh;
+}
+
+.sidebar-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #1f2937;
+}
+
+.menu-section {
+  position: relative;
+  margin-bottom: 0.5rem;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s ease;
+}
+.round-icon{
+  width:2.5rem;
+  height:2.5rem;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background-color:#A9A9A9;
+  color:var(--sidebar-bg);
+}
+.menu-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* icons stay centered in their 4rem column */
+  background: none;
+  border: none;
+  width: 4rem; /* keep icon area fixed to collapsed width */
+  color: var(--dark-charcoal);
+  cursor: pointer;
+  font-weight: 500;
+  padding: 0.5rem;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.menu-button svg {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+}
+.menu-section.active-section,
+.menu-section:hover {
+  background-color: var(--purple-accent);
+  color: var(--sidebar-bg);
+}
+.menu-section.active-section .menu-button, .menu-section.active-section span{
+  color: white;
+  font-weight: 600;
+}
+/* Floating submenu */
+.submenu {
+  position: absolute;
+  top: -1rem;
+  left: 100%;
+  margin-left: 0.5rem;
+  background-color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  list-style: none;
+  z-index: 9999;
+  min-width: 12rem;
+  animation: fadeSlideIn 0.2s ease forwards;
+}
+
+.submenu-item {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  color: #374151;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.submenu-item:hover {
+  background-color: #f3f4f6;
+  color: var(--purple-accent);
+}
+
+.main-content {
+  flex: 1;
+  padding: 0 1.5rem;
+  position: relative;
+  overflow: visible; /* <-- avoid clipping submenu */
+  overflow-y: hidden;
+  z-index: 1;
+}
+
+
+.main-text {
+  color: #374151;
+}
+
+/* === Submenu Animation === */
+@keyframes fadeSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeSlideOut {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+}
+
+/* Apply animation to submenu */
+.submenu {
+  animation: fadeSlideIn 0.2s ease forwards;
+  will-change: transform, opacity;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.sidebar.open {
+  width: 14rem;
+}
+
+.sidebar.collapsed {
+  width: 4rem;
+  transition: width 0.3s ease;
+}
+
+
+
+
+/* Make submenu always visible even if parent overflows */
+.menu-section {
+  overflow: visible;
+  position: relative;
+  margin-bottom: 0.5rem;
+}
+
+
+.flex-row{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.flex-column{
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-button span {
+  position: absolute;
+  left: 4rem;
+  white-space: nowrap; /* never wrap */
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity 0s ease, transform 0.1s ease;
+}
+/* Keep icon centered when collapsed */
+.sidebar.collapsed .menu-button {
+  justify-content: center;
+}
+/* When sidebar is open, fade and slide text in */
+.sidebar.open .menu-button span {
+  opacity: 1;
+  transform: translateX(0);
+  transition-delay: 0.25s; /* wait until width expansion starts */
+}
+/* Hide section titles when sidebar collapsed 
+.sidebar.collapsed .menu-button span {
+  //display: none;
+}
+*/
+/* When collapsed, keep text hidden */
+.sidebar.collapsed .menu-button span {
+  opacity: 0;
+ transform: translateX(-8px);
+ transition-delay: 0s;
+}
+.sidebar-toggle{
+  background-color: var(--dark-charcoal);
+  border: 2px solid var(--dark-charcoal);
+
+}
+.sidebar-toggle:hover{
+  background-color: var(--sidebar-bg);
+  color: var(--dark-charcoal);
+  border: 2px solid var(--dark-charcoal);
+}
