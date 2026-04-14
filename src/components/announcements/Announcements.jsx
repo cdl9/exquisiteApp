@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import "./News.css";
+import "./Announcements.css";
 
-export default function News() {
+export default function Announcements({title, storageKey}) {
   const [newsList, setNewsList] = useState([]);
+
   const [selectedNews, setSelectedNews] = useState(null);
   const [showAddModal, setShowAddModal] = useState(false);
   const [newTitle, setNewTitle] = useState("");
@@ -11,7 +12,7 @@ export default function News() {
   // Load saved news once
   useEffect(() => {
     try {
-      const storedNews = JSON.parse(localStorage.getItem("newsList"));
+      const storedNews = JSON.parse(localStorage.getItem(storageKey));
       if (storedNews) setNewsList(storedNews);
     } catch (e) {
       console.error("Failed to parse news from Local Storage", e);
@@ -52,9 +53,9 @@ export default function News() {
   return (
     <div className="news-page">
       <div className="news-header-row">
-        <h1 className="news-header">Company News</h1>
+        <h1 className="news-header">{title}</h1>
         <button className="btn" onClick={() => setShowAddModal(true)}>
-          + Add News
+          + Add Post
         </button>
       </div>
 
@@ -113,7 +114,7 @@ export default function News() {
             >
               ×
             </button>
-            <h2>Add News</h2>
+            <h2>Add Post</h2>
             <form onSubmit={handleAddNews} className="add-news-form standard-form">
               <label>Title</label>
               <input

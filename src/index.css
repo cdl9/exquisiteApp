@@ -15,8 +15,11 @@
 
 body{
     --purple-accent: #8181ff;
+    --light-purple-accent: #b4b4ff;
+    --secondary-purple: #ffc081;
     --sidebar-bg: #ffffff;
     --dark-charcoal: #3C364F;
+    --light-text-color: #f2f2f2;
 
     --light-gray: #f2f2f2;
 
@@ -64,7 +67,7 @@ button:hover {
 }
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  //outline: 4px auto -webkit-focus-ring-color;
 }
 
 @media (prefers-color-scheme: light) {

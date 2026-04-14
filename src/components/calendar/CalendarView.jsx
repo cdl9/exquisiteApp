@@ -5,7 +5,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { useEffect } from "react";
 
-import ViewEventModal from "./ViewEventModal.jsx";
+import ViewEventModal from "../events/ViewEventModal.jsx";
 
 
 import "./CalendarView.css";

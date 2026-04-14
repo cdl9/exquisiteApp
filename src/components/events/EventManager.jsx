@@ -35,8 +35,9 @@ export default function EventManager({
   selectedEvent,
   setSelectedEvent,
   locations,
+  employees,
+  groups
 }) {
-
 
   const [showAdd, setShowAdd] = useState(false);
   //const [selected, setSelected] = useState(null);
@@ -106,6 +107,7 @@ export default function EventManager({
       locationId: Number(locationId),
       jobCode: jobCode.trim(),
       createdAt: new Date().toISOString(),
+      roles: [], // role associations
       staff: [], // reserved for future booking associations
     };
 
@@ -174,7 +176,7 @@ export default function EventManager({
         <div className="ev-modal-overlay" onClick={() => setShowAdd(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <button className="modal-close" onClick={() => setShowAdd(false)}>×</button>
-            <h3>Create Event</h3>
+            <h3>Add Event</h3>
             <form className="ev-form standard-form" onSubmit={handleAdd}>
               <label>Event name</label>
               <input value={name} onChange={(e) => setName(e.target.value)} />
@@ -224,6 +226,8 @@ export default function EventManager({
           onDelete={handleDelete}
           onUpdate={updateEvent}
           locations={locations}
+          employees={employees}
+          groups={groups}
         />
       )}
 

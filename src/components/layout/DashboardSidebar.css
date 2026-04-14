@@ -29,7 +29,9 @@
   padding: 1rem;
   border-right: 1px solid #e5e7eb;
   overflow-y: auto;
-  position: relative;
+  position: fixed;
+  left:0;
+  top:5.5rem;
   overflow: visible;
   z-index: 50;
   transition: width 0.3s ease;
@@ -124,10 +126,14 @@
   padding: 0 1.5rem;
   position: relative;
   overflow: visible; /* <-- avoid clipping submenu */
-  overflow-y: hidden;
+  overflow-y: auto;
   z-index: 1;
+   margin-left: 4rem; /* collapsed width */
+  transition: margin-left 0.3s ease;
 }
-
+.sidebar.open ~ .main-content {
+  margin-left: 14rem;
+}
 
 .main-text {
   color: #374151;
@@ -201,6 +207,7 @@
   opacity: 0;
   transform: translateX(-8px);
   transition: opacity 0s ease, transform 0.1s ease;
+  pointer-events: none;
 }
 /* Keep icon centered when collapsed */
 .sidebar.collapsed .menu-button {

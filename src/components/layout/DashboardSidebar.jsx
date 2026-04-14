@@ -1,16 +1,15 @@
 import { useState,useEffect } from 'react';
-import News from './News';
-import CancelForm from './CancelForm';
+import Announcements from '../announcements/Announcements.jsx';
+import CancelForm from '../CancelForm.jsx';
 
 import { Menu, MessageSquare, User, Users, Calendar, Settings, BookOpenText, Newspaper, HandCoins } from "lucide-react";
 
 import './DashboardSidebar.css';
-import exqlogo from '../assets/exqlogo.png';
-import EventManager from './EventManager';
-import CalendarView from './CalendarView';
-import EventsProvider from './EventsProvider';
-import AddLocation from './AddLocation.jsx';
-import EmployeesManager from './EmployeesManager.jsx';
+import exqlogo from '../../assets/exqlogo.png';
+import EventsProvider from '../EventsProvider.jsx';
+import AddLocation from '../locations/AddLocation.jsx';
+import EmployeesManager from '../employees/EmployeesManager.jsx';
+import GroupsManager from '../groups/GroupsManager.jsx';
 
 const menuItems = [
   {
@@ -25,7 +24,7 @@ const menuItems = [
   },
   {
     title: 'Staff Management',
-    items: ['Staff List', 'Search Staff', 'Add Staff', 'Groups', 'Cancellation Form'],
+    items: ['Staff List', 'Search Staff', 'Groups', 'Cancellation Form'],
     icon: Users,
   },
   {
@@ -89,19 +88,32 @@ function DashboardSidebar() {
   }
 ];
 
-const [employees, setEmployees] = useState([]);
-const [groups, setGroups] = useState([]);
+const [employees, setEmployees] = useState(() => {
+  const saved = localStorage.getItem("employees");
+  return saved ? JSON.parse(saved) : [];
+});
 
+const [groups, setGroups] = useState(() => {
+  const saved = localStorage.getItem("groups");
+  return saved ? JSON.parse(saved) : [];
+});
 
 const [locations, setLocations] = useState(() => {
   const saved = localStorage.getItem("locations");
   return saved ? JSON.parse(saved) : DEFAULT_LOCATIONS;
 });
 
+useEffect(() => {
+  localStorage.setItem("employees", JSON.stringify(employees));
+}, [employees]);
 
-  useEffect(() => {
-    localStorage.setItem("locations", JSON.stringify(locations));
-  }, [locations]);
+useEffect(() => {
+  localStorage.setItem("groups", JSON.stringify(groups));
+}, [groups]);
+
+useEffect(() => {
+  localStorage.setItem("locations", JSON.stringify(locations));
+}, [locations]);
 
 
 
@@ -144,7 +156,6 @@ const [locations, setLocations] = useState(() => {
       <div className="flex-row"> 
       <aside 
         className={`sidebar ${isSidebarOpen ? "open" : "collapsed"}`}
-        onMouseEnter={() => setIsSidebarOpen(true)}
         onMouseLeave={() => setIsSidebarOpen(false)}
      >
         
@@ -159,6 +170,7 @@ const [locations, setLocations] = useState(() => {
                     hoveredSection === section.title ? "active-section" : ""
                 }`}
               onMouseEnter={() => handleMouseEnter(section.title)}
+              onClick={()=>setIsSidebarOpen(true)}
               onMouseLeave={handleMouseLeave}
             >
               <button className="menu-button">
@@ -183,10 +195,31 @@ const [locations, setLocations] = useState(() => {
       </aside>
 
       <main className="main-content">
-        {selectedSection === "News" && <News />}
+        {selectedSection === "News" && (
+          <Announcements title="Company News" storageKey="newsList" />
+        )}
+        {selectedSection === "Referral Incentive" && (
+          <Announcements title="Referral Incentive" storageKey="referralPosts" />
+        )}
+        {selectedSection === "HR Updates" && (
+          <Announcements title="HR Updates" storageKey="hrUpdates" />
+        )}
+        {selectedSection === "Guest Comments" && (
+          <Announcements title="Guest Comments" storageKey="guestComments" />
+        )}  
+        {selectedSection === "Payroll Info" && (
+          <Announcements title="Payroll Info" storageKey="payrollInfo" />
+        )}
+
+
         {selectedSection === "Cancellation Form" && <CancelForm/>}
         {(selectedSection === "Add Event" || selectedSection === "Calendar") && (
-          <EventsProvider locations={locations} activeView={selectedSection} />
+          <EventsProvider 
+            locations={locations} 
+            activeView={selectedSection} 
+            employees={employees}
+            groups={groups}
+          />
         )}
         {selectedSection === "Locations" && <AddLocation locations={locations} setLocations={setLocations} />}
 
@@ -194,6 +227,10 @@ const [locations, setLocations] = useState(() => {
           employees={employees}
           setEmployees={setEmployees}
           groups={groups}
+        />}
+        {selectedSection === "Groups" && <GroupsManager 
+          groups={groups}
+          setGroups={setGroups}
         />}
       </main>
       </div>

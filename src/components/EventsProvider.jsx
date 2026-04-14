@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import EventManager from "./EventManager";
-import CalendarView from "./CalendarView";
-import News from "./News";
+import EventManager from "./events/EventManager";
+import CalendarView from "./calendar/CalendarView";
 
-export default function EventsProvider({locations, activeView}) {
+
+export default function EventsProvider({locations, activeView, employees, groups}) {
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
 
@@ -38,11 +38,19 @@ export default function EventsProvider({locations, activeView}) {
 
   // UPDATE
   const updateEvent = (updatedEvent) => {
-    const updated = events.map(ev =>
-      Number(ev.id) === Number(updatedEvent.id) ? updatedEvent : ev
-    );
-    persist(updated);
-  };
+    const updatedEvents = events.map(ev =>
+      ev.id === updatedEvent.id ? updatedEvent : ev
+    )
+
+    setEvents(updatedEvents)
+
+    // ⭐ keep modal event in sync
+    if (selectedEvent?.id === updatedEvent.id) {
+      setSelectedEvent(updatedEvent)
+    }
+
+    localStorage.setItem("events", JSON.stringify(updatedEvents))
+  }
 
   // DELETE
   const deleteEvent = (id) => {
@@ -61,6 +69,8 @@ export default function EventsProvider({locations, activeView}) {
           selectedEvent={selectedEvent}
           setSelectedEvent={setSelectedEvent}
           locations={locations}
+          employees={employees}
+          groups={groups}
         />
       )}
 

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./Event.css";
 import { useRef } from "react";
-
+import RoleManager from "./RoleManager";
+import {createPortal} from "react-dom";
 
 function formatTime(t) {
   if (!t) return "";
@@ -22,7 +23,9 @@ export default function ViewEventModal({
   onClose,
   onDelete,
   onUpdate,
-  locations
+  locations,
+  employees,
+  groups
 }) {
 
   if (!selected) return null;
@@ -140,14 +143,8 @@ export default function ViewEventModal({
   const selectedLocation = locations.find(
     (l) => Number(l.id) === Number(selected.locationId)
   )|| locations[0];
-  console.log("Selected event:", selected);
 
-  console.log(
-  "locationId type:",
-  locationId,
-  typeof locationId
-);
-  return (
+  return createPortal(
     <div className="ev-modal-overlay" onClick={attemptClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <button className="modal-close" onClick={attemptClose}>×</button>
@@ -171,7 +168,12 @@ export default function ViewEventModal({
             <div className="ev-detail-row">
               <strong>Job code:</strong> {selected.jobCode || "(none)"}
             </div>
-
+            <RoleManager
+              event={selected}
+              updateEvent={onUpdate}
+              employees={employees}
+              groups={groups}
+            />
             <div className="modal-actions">
               <button className="btn" onClick={() => {
                 setIsEditing(true)
@@ -237,6 +239,7 @@ export default function ViewEventModal({
           </>
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

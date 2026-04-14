@@ -1,7 +1,7 @@
 // AddLocation.jsx
 
 import React, { useEffect, useState } from "react";
-import "./Event.css";
+import "../events/Event.css";
 
 const COLOR_PALETTE = [
   "#8181ff", // soft blue
